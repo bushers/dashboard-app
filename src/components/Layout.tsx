@@ -1,15 +1,18 @@
 import * as React from 'react';
-import AppContext from '../AppContext';
+
+import { useAuthState } from '../AuthContext';
 
 interface Props {}
 
 const Layout: React.FC<Props> = ({ children }) => {
-    const { appState, setAppState } = React.useContext(AppContext);
+    const { user } = useAuthState();
+
+    console.log(user);
 
     return (
         <div className="layout">
-            <h1>{appState}</h1>
-            <button onClick={() => setAppState('New state')}>Click</button>
+            <h1>{user.username}</h1>
+
             {children}
         </div>
     );
