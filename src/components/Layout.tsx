@@ -6,13 +6,12 @@ interface Props {}
 
 const Layout: React.FC<Props> = ({ children }) => {
     const { user } = useAuthState();
-
     console.log(user);
+    const { username } = user;
 
     return (
         <div className="layout">
-            <h1>{user.username}</h1>
-
+            <h1>{username}</h1>
             {children}
         </div>
     );
