@@ -1,3 +1,4 @@
+import { iLoginState } from './AuthContext';
 import { auth } from './constants';
 
 export default {
@@ -17,12 +18,22 @@ export default {
         auth.signOut();
     },
 
-    authListener: (): void => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                console.log(`user logged in: ${user}`);
+    authListener: (callback: (loginState: iLoginState) => void): void => {
+        auth.onAuthStateChanged((fbUser) => {
+            if (fbUser) {
+                console.log(`user logged in: ${fbUser}`);
+                callback({
+                    status: 'success',
+                    error: null,
+                    user: fbUser,
+                });
             } else {
                 ('user logged out');
+                callback({
+                    status: 'success',
+                    error: null,
+                    user: null,
+                });
             }
         });
     },

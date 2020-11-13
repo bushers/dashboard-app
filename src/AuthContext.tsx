@@ -1,14 +1,11 @@
 import * as React from 'react';
+import fbAuth from './fbAuth';
 
-interface iLoginState {
+export interface iLoginState {
     status: 'success' | 'error' | 'pending';
     error: unknown;
-    user: { username: string };
+    user: unknown;
 }
-
-const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
-
-const getUser = () => sleep(1000).then(() => ({ username: 'Nick' }));
 
 const AuthContext = React.createContext(null);
 
@@ -20,11 +17,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     });
 
     React.useEffect(() => {
-        // Get user function
-        getUser().then(
-            (user) => setState({ status: 'success', error: null, user }),
-            (error) => setState({ status: 'error', error, user: null }),
-        );
+        fbAuth.authListener(setState);
     }, []);
 
     return (
@@ -52,7 +45,7 @@ export const useAuthState = (): {
     isAuthenticated: boolean;
     status: 'success' | 'error' | 'pending';
     error: unknown;
-    user: { username: string };
+    user: unknown;
 } => {
     const state: iLoginState = React.useContext(AuthContext);
     const isPending = state.status === 'pending';
