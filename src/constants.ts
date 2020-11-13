@@ -5,5 +5,3 @@ import 'firebase/firestore';
 export const auth = firebase.auth();
 
 export const db = firebase.firestore();
-
-db.settings({ timestampsInSnapshots: true });
